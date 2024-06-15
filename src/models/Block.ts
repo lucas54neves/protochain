@@ -38,12 +38,12 @@ export class Block {
    * Checks if the block is valid.
    * @returns True if the block is valid, false otherwise.
    */
-  isValid(): boolean {
-    if (this.index < 0) return false
-    if (!this.hash) return false
-    if (!this.previousHash) return false
+  isValid(previousHash: string, previousIndex: number): boolean {
+    if (previousIndex !== this.index - 1) return false
+    if (this.hash !== this.getHash()) return false
     if (!this.data) return false
     if (this.timestamp < 1) return false
+    if (this.previousHash !== previousHash) return false
     return true
   }
 }
