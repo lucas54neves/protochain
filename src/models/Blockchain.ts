@@ -1,0 +1,50 @@
+import { Block } from "./Block"
+
+/**
+ * Represents a blockchain.
+ */
+export default class Blockchain {
+  /**
+   * The array of blocks in the blockchain.
+   */
+  blocks: Block[]
+
+  /**
+   * Creates a new instance of the Blockchain class.
+   */
+  constructor() {
+    this.blocks = [new Block(0, "000000000")]
+  }
+
+  /**
+   * Adds a new block to the blockchain.
+   * @param block - The block to be added.
+   */
+  addBlock(block: Block): void {
+    this.blocks.push(block)
+  }
+
+  /**
+   * Checks if the blockchain is valid.
+   * @returns A boolean indicating whether the blockchain is valid or not.
+   */
+  isValid(): boolean {
+    for (let i = 0; i < this.blocks.length; i++) {
+      const block = this.blocks[i]
+
+      if (!block.isValid()) {
+        return false
+      }
+
+      if (i > 0) {
+        const previousBlock = this.blocks[i - 1]
+
+        if (block.index !== previousBlock.index + 1) {
+          return false
+        }
+      }
+    }
+
+    return true
+  }
+}
