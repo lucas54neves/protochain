@@ -13,7 +13,7 @@ export default class Blockchain {
    * Creates a new instance of the Blockchain class.
    */
   constructor() {
-    this.blocks = [new Block(0, "000000000")]
+    this.blocks = [new Block(0, "000000000", "Genesis Block")]
   }
 
   /**
@@ -29,19 +29,17 @@ export default class Blockchain {
    * @returns A boolean indicating whether the blockchain is valid or not.
    */
   isValid(): boolean {
-    for (let i = 0; i < this.blocks.length; i++) {
-      const block = this.blocks[i]
+    for (let i = this.blocks.length - 1; i > 0; i--) {
+      const currentBlock = this.blocks[i]
 
-      if (!block.isValid()) {
+      if (!currentBlock.isValid()) {
         return false
       }
 
-      if (i > 0) {
-        const previousBlock = this.blocks[i - 1]
+      const previousBlock = this.blocks[i - 1]
 
-        if (block.index !== previousBlock.index + 1) {
-          return false
-        }
+      if (currentBlock.index !== previousBlock.index + 1) {
+        return false
       }
     }
 
